@@ -24,7 +24,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Url"
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Url"
+                required:
+                  - data
     post:
       tags:
         - url
@@ -35,7 +42,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUrl"
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/CreateUrl"
+              required:
+                - data
         required: true
       responses:
         "200":

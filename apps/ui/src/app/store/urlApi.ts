@@ -8,7 +8,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: queryArg => ({
         url: `/api/v1/url`,
         method: "POST",
-        body: queryArg.createUrl,
+        body: queryArg.body,
       }),
     }),
     deleteUrl: build.mutation<DeleteUrlApiResponse, DeleteUrlApiArg>({
@@ -21,12 +21,16 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 })
 export { injectedRtkApi as urlApi }
-export type ListUrlsApiResponse = /** status 200 Successful operation */ Url
+export type ListUrlsApiResponse = /** status 200 Successful operation */ {
+  data: Url[]
+}
 export type ListUrlsApiArg = void
 export type CreateUrlApiResponse = /** status 200 Successful operation */ Url
 export type CreateUrlApiArg = {
   /** Create a new short url for a long url */
-  createUrl: CreateUrl
+  body: {
+    data: CreateUrl
+  }
 }
 export type DeleteUrlApiResponse = unknown
 export type DeleteUrlApiArg = {
