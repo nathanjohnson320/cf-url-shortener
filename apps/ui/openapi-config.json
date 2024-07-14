@@ -2,7 +2,7 @@
   "schemaFile": "../server/openapi.yaml",
   "apiFile": "./src/app/store/emptyApi.ts",
   "apiImport": "emptySplitApi",
-  "outputFile": "./src/app/store/urlApi.ts",
+  "outputFile": "./src/app/store/generatedUrlApi.ts",
   "exportName": "urlApi",
   "hooks": true
 }

@@ -56,6 +56,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Url"
+        "400":
+          description: Bad Request
         "422":
           description: Validation exception
   /api/v1/url/{id}:
@@ -70,7 +72,7 @@ paths:
           description: ID of short url to delete
           required: true
           schema:
-            type: string
+            type: number
       responses:
         "204":
           description: Successful operation

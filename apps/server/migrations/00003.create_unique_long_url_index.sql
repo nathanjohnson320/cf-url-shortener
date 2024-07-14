@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX urls_long_url_idx ON urls (longUrl);

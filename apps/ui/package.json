@@ -16,6 +16,7 @@
     "gen:api": "npx @rtk-query/codegen-openapi openapi-config.json"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
     "@reduxjs/toolkit": "^2.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

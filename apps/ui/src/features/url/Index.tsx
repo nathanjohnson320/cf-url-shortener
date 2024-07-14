@@ -1,9 +1,16 @@
 import { useState } from "react"
-import { useCreateUrlMutation, useListUrlsQuery } from "../../app/store/urlApi"
+import {
+  useCreateUrlMutation,
+  useDeleteUrlMutation,
+  useListUrlsQuery,
+} from "../../app/store/urlApi"
 import type { Url } from "../../app/store/urlApi"
+import { XCircleIcon } from "@heroicons/react/20/solid"
 
 export const Index = () => {
   const { isLoading: isLoadingUrls, data: urlsResponse } = useListUrlsQuery()
+  const [createUrl, createResult] = useCreateUrlMutation()
+  const [deleteUrl, deleteResult] = useDeleteUrlMutation()
   const [longUrl, setLongUrl] = useState("")
 
   return (
@@ -80,12 +87,47 @@ export const Index = () => {
                   </p>
                 </div>
 
+                {createResult.error && (
+                  <div className="rounded-md bg-red-50 p-4 mt-12">
+                    <div className="flex">
+                      <div className="flex-shrink-0">
+                        <XCircleIcon
+                          aria-hidden="true"
+                          className="h-5 w-5 text-red-400"
+                        />
+                      </div>
+                      <div className="ml-3">
+                        <h3 className="text-sm font-medium text-red-800">
+                          There were {createResult.error.data.length} errors
+                          with your submission
+                        </h3>
+                        <div className="mt-2 text-sm text-red-700">
+                          <ul role="list" className="list-disc space-y-1 pl-5">
+                            {createResult.error.data.errors.map(
+                              (error: any) => (
+                                <li key={error.message}>{error.message}</li>
+                              ),
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <form
                   id="url-shortener-form"
                   className="mt-12 sm:mx-auto sm:max-w-lg"
-                  onSubmit={event => {
+                  onSubmit={async event => {
                     event.preventDefault()
-                    useCreateUrlMutation()
+
+                    try {
+                      await createUrl({
+                        body: { data: { longUrl } },
+                      })
+                    } catch (error) {
+                      console.error(error)
+                    }
                   }}
                 >
                   <div className="sm:flex mt-3">
@@ -104,9 +146,6 @@ export const Index = () => {
                           required
                         />
                       </div>
-                      @error('longUrl')
-                      <span className="error"></span>
-                      @enderror
                     </div>
 
                     <div className="mt-2 ml-2">
@@ -154,6 +193,7 @@ export const Index = () => {
                       {!isLoadingUrls ? (
                         urlsResponse?.data?.map((url: Url, index: number) => (
                           <tr
+                            key={url.id}
                             className={
                               index % 2 === 0 ? "bg-white" : "bg-gray-50"
                             }
@@ -166,7 +206,7 @@ export const Index = () => {
                             </td>
                             <td className="px-6 py-4 text-right text-sm font-medium">
                               <a
-                                href="$url->longUrl"
+                                href={url.longUrl}
                                 className="text-indigo-600 hover:text-indigo-900"
                                 target="_blank"
                                 rel="nofollow noopener noreferrer"
@@ -175,7 +215,12 @@ export const Index = () => {
                               </a>
                             </td>
                             <td>
-                              <button className="text-red-600 hover:text-red-900">
+                              <button
+                                className="text-red-600 hover:text-red-900"
+                                onClick={() => {
+                                  deleteUrl({ id: url.id })
+                                }}
+                              >
                                 Delete
                               </button>
                             </td>

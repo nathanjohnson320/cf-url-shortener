@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX urls_short_url_idx ON urls (shortUrl);

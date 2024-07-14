@@ -4,10 +4,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "wrangler pages dev",
-    "deploy": "$npm_execpath run build && wrangler pages deploy"
+    "deploy": "$npm_execpath run build && wrangler pages deploy",
+    "migrate": "npx wrangler d1 migrations apply url_shortener --local"
   },
   "dependencies": {
-    "hono": "^4.4.13"
+    "hono": "^4.4.13",
+    "nanoid": "^5.0.7"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240529.0",

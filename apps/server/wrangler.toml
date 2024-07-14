@@ -12,10 +12,12 @@ pages_build_output_dir = "./dist"
 # binding = "MY_BUCKET"
 # bucket_name = "my-bucket"
 
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "my-database"
-# database_id = ""
+[[d1_databases]]
+binding = "DB"
+database_name = "url_shortener"
+database_id = "22b4fa21-7a0f-49cf-90e1-dca08383a936"
+migrations_table = "url_shortener_migrations"
+migrations_dir = "migrations"
 
 # [ai]
 # binding = "AI"
